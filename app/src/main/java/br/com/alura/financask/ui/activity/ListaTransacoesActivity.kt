@@ -20,7 +20,8 @@ class ListaTransacoesActivity : AppCompatActivity() {
         val transacoes = listOf(
                 Transacao(valor = BigDecimal(20.5), tipo = Tipo.DESPESA, data = Calendar.getInstance()),
                 Transacao(valor = BigDecimal(100.0), categoria = "Economia", tipo = Tipo.RECEITA),
-                Transacao(valor = BigDecimal(200), tipo = Tipo.DESPESA, data = Calendar.getInstance()))
+                Transacao(valor = BigDecimal(900.00), categoria = "Pagamento do 13", tipo = Tipo.RECEITA),
+                Transacao(valor = BigDecimal(200), tipo = Tipo.DESPESA, data = Calendar.getInstance(), categoria = "Reforma"))
 
         val arrayAdapter = ArrayAdapter(this,
             android.R.layout.simple_expandable_list_item_1, transacoes)
