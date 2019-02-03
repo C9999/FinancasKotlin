@@ -38,11 +38,18 @@ class ListaTransacoesAdapter(private val transacoes: List<Transacao>,
         viewCriada.transacao_valor.text = transacao.valor.formataParaBrasileiro()
     }
 
+//    private fun corPor(tipo: Tipo): Int {
+//        if (tipo == Tipo.RECEITA) {
+//            return ContextCompat.getColor(context, R.color.receita)
+//        }
+//        return ContextCompat.getColor(context, R.color.despesa)
+//    }
     private fun corPor(tipo: Tipo): Int {
-        if (tipo == Tipo.RECEITA) {
-            return ContextCompat.getColor(context, R.color.receita)
+        return when (tipo) {
+            Tipo.RECEITA -> ContextCompat.getColor(context, R.color.receita)
+            Tipo.DESPESA -> ContextCompat.getColor(context, R.color.despesa)
+            Tipo.INDEFINIDA -> ContextCompat.getColor(context, R.color.despesa)
         }
-        return ContextCompat.getColor(context, R.color.despesa)
     }
 
     private fun adicionaIcone(transacao: Transacao, viewCriada: View) {
