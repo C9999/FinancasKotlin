@@ -2,10 +2,11 @@ package br.com.alura.financask.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.ArrayAdapter
+import android.view.View
 import br.com.alura.financask.R
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
+import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import java.math.BigDecimal
@@ -19,10 +20,19 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         val transacoes: List<Transacao> = transacoesDeExemplo()
 
-        val arrayAdapter = ArrayAdapter(this,
-            android.R.layout.simple_expandable_list_item_1, transacoes)
+        configuraResumo(transacoes)
 
         configuraLista(transacoes)
+        //      val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, transacoes)
+    }
+
+    private fun configuraResumo(transacoes: List<Transacao>) {
+        val view: View = window.decorView
+        val resumoView = ResumoView(view, transacoes)
+        resumoView.adicionaReceita()
+        resumoView.adicionaDespesa()
+        resumoView.adicionaTotal()
+
     }
 
     private fun configuraLista(transacoes: List<Transacao>) {
