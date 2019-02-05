@@ -2,14 +2,13 @@ package br.com.alura.financask.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.ArrayAdapter
+import android.view.View
 import br.com.alura.financask.R
-import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
+import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
-import kotlinx.android.synthetic.main.resumo_card.*
 import java.math.BigDecimal
 import java.util.Calendar
 
@@ -21,22 +20,18 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
         val transacoes: List<Transacao> = transacoesDeExemplo()
 
-        adicionaReceitaResumo(transacoes)
-
-//        val arrayAdapter = ArrayAdapter(this,
-//            android.R.layout.simple_expandable_list_item_1, transacoes)
+        configuraResumo(transacoes)
 
         configuraLista(transacoes)
+        //      val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, transacoes)
     }
 
-    private fun adicionaReceitaResumo(transacoes: List<Transacao>) {
-        var totalReceita = BigDecimal.ZERO
+    private fun configuraResumo(transacoes: List<Transacao>) {
+        val view: View = window.decorView
+        val resumoView = ResumoView(view, transacoes)
+        resumoView.adicionaReceita()
+        resumoView.adicionaDespesa()
 
-        for (transacao in transacoes) {
-            if (transacao.tipo == Tipo.RECEITA)
-                totalReceita = totalReceita.plus(transacao.valor)
-        }
-        resumo_card_receita.text = totalReceita.formataParaBrasileiro()
     }
 
     private fun configuraLista(transacoes: List<Transacao>) {
