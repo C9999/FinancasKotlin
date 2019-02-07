@@ -15,29 +15,37 @@ class ResumoView(private val view: View,
                  transacoes: List<Transacao>) {
 
     private val resumo: Resumo = Resumo(transacoes)
+    private val corReceita = ContextCompat.getColor(context, R.color.receita)
+    private val corDespesa = ContextCompat.getColor(context, R.color.despesa)
 
     fun adicionaReceita() {
         val totalReceita = resumo.receita()
-        view.resumo_card_receita.setTextColor(ContextCompat.getColor(context, R.color.receita))
-        view.resumo_card_receita.text = totalReceita.formataParaBrasileiro()
+        with(view.resumo_card_receita){
+            setTextColor(corReceita)
+            text = totalReceita.formataParaBrasileiro()
+        }
     }
 
     fun adicionaDespesa() {
         val totalDespesa = resumo.despesa()
-        view.resumo_card_despesa.setTextColor(ContextCompat.getColor(context, R.color.despesa))
+        view.resumo_card_despesa.setTextColor(corDespesa) //implementar o with igual ao adicionaReceita
         view.resumo_card_despesa.text = totalDespesa.formataParaBrasileiro()
     }
 
     fun adicionaTotal() {
         val total = resumo.total()
-
-        if(total.compareTo(BigDecimal.ZERO) >= 0){
-            view.resumo_card_total.setTextColor(ContextCompat.getColor(context, R.color.receita))
-        }else{
-            view.resumo_card_total.setTextColor(ContextCompat.getColor(context, R.color.despesa))
+        val cor = corPor(total)
+        with(view.resumo_card_total){
+            setTextColor(cor)
+            text = total.formataParaBrasileiro()
         }
-        view.resumo_card_total.text = total.formataParaBrasileiro()
+    }
 
-
+    private fun corPor(valor: BigDecimal): Int {
+        if (valor >= BigDecimal.ZERO) {
+            return corReceita
+        } else {
+            return corDespesa
+        }
     }
 }
