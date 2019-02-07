@@ -3,30 +3,16 @@ package br.com.alura.financask.model
 import java.math.BigDecimal
 
 class Resumo(private val transacoes: List<Transacao>){
-    fun receita() : BigDecimal{
-//        var totalReceita = BigDecimal.ZERO
-//        for(transacao in transacoes) {
-//            if (transacao.tipo == Tipo.RECEITA)
-//                totalReceita = totalReceita.plus(transacao.valor)
-//        }
-        val somaDeReceita: Double = transacoes
-                .filter{transacao -> transacao.tipo == Tipo.RECEITA}
-                .sumByDouble{transacao -> transacao.valor.toDouble()}
-        
-        return BigDecimal(somaDeReceita) //totalReceita
-    }
+    fun receita() = somaPor(Tipo.RECEITA)
 
-    fun despesa() : BigDecimal{
-        var totalDespesa = BigDecimal.ZERO
+    fun despesa() = somaPor(Tipo.DESPESA)
+    
+    fun total() = receita().subtract(despesa())
 
-        for(transacao in transacoes) {
-            if (transacao.tipo == Tipo.DESPESA)
-                totalDespesa = totalDespesa.plus(transacao.valor)
-        }
-        return totalDespesa
-    }
-
-    fun total() : BigDecimal{
-        return receita().subtract(despesa())
+    private fun somaPor(tipo: Tipo) : BigDecimal{
+        val somaDeTransacoesPeloTipo = transacoes
+                .filter { it.tipo == tipo }
+                .sumByDouble { it.valor.toDouble() }
+        return BigDecimal(somaDeTransacoesPeloTipo)
     }
 }
