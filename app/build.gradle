@@ -6,7 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "28.0.2"
     defaultConfig {
         applicationId "br.com.alura.financask"
         minSdkVersion 21
