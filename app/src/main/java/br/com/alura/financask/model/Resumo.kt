@@ -15,5 +15,5 @@ class Resumo(private val transacoes: List<Transacao>){
                 .sumByDouble { it.valor.toDouble() }
         return BigDecimal(somaDeTransacoesPeloTipo)
     }
-    
+
 }
