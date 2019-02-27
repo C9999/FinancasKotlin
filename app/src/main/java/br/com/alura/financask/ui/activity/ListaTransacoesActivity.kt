@@ -7,9 +7,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
 import br.com.alura.financask.R
+import br.com.alura.financask.R.id.lista_transacoes_adiciona_receita
 import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
@@ -56,9 +58,17 @@ class ListaTransacoesActivity : AppCompatActivity() {
                                     viewCriada.form_transacao_data.setText(dataSelecionada.formataParaBrasileiro())
                                 }, ano, mes, dia).show()
                     }
+
+            val adapter = ArrayAdapter
+                    .createFromResource(this,
+                            R.array.categorias_de_receita,
+                            android.R.layout.simple_spinner_dropdown_item)
+            viewCriada.form_transacao_categoria.adapter = adapter
             
             AlertDialog.Builder(this)
                     .setTitle(R.string.adiciona_receita)
+                    .setPositiveButton("Adcionar", null)
+                    .setNegativeButton("Cancelar", null)
                     .setView(viewCriada)
                     .show()
         }
