@@ -1,6 +1,7 @@
 package br.com.alura.financask.ui.activity
 
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -20,7 +21,8 @@ import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.math.BigDecimal
-import java.util.Calendar
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
@@ -64,10 +66,29 @@ class ListaTransacoesActivity : AppCompatActivity() {
                             R.array.categorias_de_receita,
                             android.R.layout.simple_spinner_dropdown_item)
             viewCriada.form_transacao_categoria.adapter = adapter
-            
+
             AlertDialog.Builder(this)
                     .setTitle(R.string.adiciona_receita)
-                    .setPositiveButton("Adcionar", null)
+                    .setPositiveButton("Adcionar",
+                            DialogInterface.OnClickListener { dialogInterface, i ->
+                                    val valorEmTexto = viewCriada.form_transacao_valor.text.toString()
+                                    val dataEmTexto = viewCriada.form_transacao_data.text.toString()
+                                    val categoriaEmTexto = viewCriada.form_transacao_categoria.selectedItem.toString()
+
+                                    val valor = BigDecimal(valorEmTexto)
+
+                                    val formatoBrasileiro = SimpleDateFormat("dd/MM/yyyy")
+                                    val dataConvertida: Date = formatoBrasileiro.parse(dataEmTexto)
+                                    val data = Calendar.getInstance()
+                                    data.time = dataConvertida
+
+
+                                    val transacaoCriada = Transacao(tipo = Tipo.RECEITA,
+                                            valor = valor,
+                                            data = data,
+                                            categoria = categoriaEmTexto)
+//                                    Toast.makeText(this, "${transacaoCriada.valor} - ${transacaoCriada.data.formataParaBrasileiro()} - ${transacaoCriada.categoria} - ${transacaoCriada.tipo}", Toast.LENGTH_LONG).show()
+                            })
                     .setNegativeButton("Cancelar", null)
                     .setView(viewCriada)
                     .show()
