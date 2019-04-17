@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import br.com.alura.financask.R
 import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
@@ -17,6 +18,7 @@ import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
+import java.lang.NumberFormatException
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 import java.util.*
@@ -66,30 +68,35 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
             AlertDialog.Builder(this)
                     .setTitle(R.string.adiciona_receita)
-                    .setPositiveButton("Adcionar",
-                            DialogInterface.OnClickListener { dialogInterface, i ->
-                                    val valorEmTexto = viewCriada.form_transacao_valor.text.toString()
-                                    val dataEmTexto = viewCriada.form_transacao_data.text.toString()
-                                    val categoriaEmTexto = viewCriada.form_transacao_categoria.selectedItem.toString()
+                    .setPositiveButton("Adcionar")
+                    { dialogInterface, i ->
+                        val valorEmTexto = viewCriada.form_transacao_valor.text.toString()
+                        val dataEmTexto = viewCriada.form_transacao_data.text.toString()
+                        val categoriaEmTexto = viewCriada.form_transacao_categoria.selectedItem.toString()
 
-                                    val valor = BigDecimal(valorEmTexto)
+                        var valor  = try {
+                            BigDecimal(valorEmTexto)
+                        } catch(exception: NumberFormatException){
+                            Toast.makeText(this, "Falha na conversão de valor", Toast.LENGTH_LONG).show()
+                            BigDecimal.ZERO
+                        }
 
-                                    val formatoBrasileiro = SimpleDateFormat("dd/MM/yyyy")
-                                    val dataConvertida: Date = formatoBrasileiro.parse(dataEmTexto)
-                                    val data = Calendar.getInstance()
-                                    data.time = dataConvertida
+                        val formatoBrasileiro = SimpleDateFormat("dd/MM/yyyy")
+                        val dataConvertida: Date = formatoBrasileiro.parse(dataEmTexto)
+                        val data = Calendar.getInstance()
+                        data.time = dataConvertida
 
 
-                                    val transacaoCriada = Transacao(tipo = Tipo.RECEITA,
-                                            valor = valor,
-                                            data = data,
-                                            categoria = categoriaEmTexto)
+                        val transacaoCriada = Transacao(tipo = Tipo.RECEITA,
+                                valor = valor,
+                                data = data,
+                                categoria = categoriaEmTexto)
 
-                                atualizaTrasacoes(transacaoCriada)
+                        atualizaTrasacoes(transacaoCriada)
 
-                                lista_transacoes_adiciona_menu.close(true)
-                                 //Toast.makeText(this, "${transacaoCriada.valor} - ${transacaoCriada.data.formataParaBrasileiro()} - ${transacaoCriada.categoria} - ${transacaoCriada.tipo}", Toast.LENGTH_LONG).show()
-                            })
+                        lista_transacoes_adiciona_menu.close(true)
+                        //Toast.makeText(this, "${transacaoCriada.valor} - ${transacaoCriada.data.formataParaBrasileiro()} - ${transacaoCriada.categoria} - ${transacaoCriada.tipo}", Toast.LENGTH_LONG).show()
+                    }
                     .setNegativeButton("Cancelar", null)
                     .setView(viewCriada)
                     .show()
