@@ -9,10 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
-import android.widget.Toast
 import br.com.alura.financask.R
-import br.com.alura.financask.R.id.lista_transacoes_adiciona_receita
 import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
@@ -26,15 +23,15 @@ import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
+    private val transacoes: MutableList<Transacao> = mutableListOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        val transacoes: List<Transacao> = transacoesDeExemplo()
+        configuraResumo()
 
-        configuraResumo(transacoes)
-
-        configuraLista(transacoes)
+        configuraLista()
 
         lista_transacoes_adiciona_receita.setOnClickListener {
             val view: View = window.decorView
@@ -87,7 +84,11 @@ class ListaTransacoesActivity : AppCompatActivity() {
                                             valor = valor,
                                             data = data,
                                             categoria = categoriaEmTexto)
-//                                    Toast.makeText(this, "${transacaoCriada.valor} - ${transacaoCriada.data.formataParaBrasileiro()} - ${transacaoCriada.categoria} - ${transacaoCriada.tipo}", Toast.LENGTH_LONG).show()
+
+                                atualizaTrasacoes(transacaoCriada)
+
+                                lista_transacoes_adiciona_menu.close(true)
+                                 //Toast.makeText(this, "${transacaoCriada.valor} - ${transacaoCriada.data.formataParaBrasileiro()} - ${transacaoCriada.categoria} - ${transacaoCriada.tipo}", Toast.LENGTH_LONG).show()
                             })
                     .setNegativeButton("Cancelar", null)
                     .setView(viewCriada)
@@ -96,14 +97,20 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     }
 
-    private fun configuraResumo(transacoes: List<Transacao>) {
+    private fun atualizaTrasacoes(transacao: Transacao) {
+        transacoes.add(transacao)
+        configuraLista()
+        configuraResumo()
+    }
+
+    private fun configuraResumo() {
         val view: View = window.decorView
-        val resumoView = ResumoView(view, this, transacoes)
+        val resumoView = ResumoView(view, this, transacoes) //
         resumoView.atualiza()
 
     }
 
-    private fun configuraLista(transacoes: List<Transacao>) {
+    private fun configuraLista() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoes, this)
     }
 
