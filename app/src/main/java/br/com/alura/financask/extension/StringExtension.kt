@@ -16,5 +16,5 @@ fun String.converteParaCalendar() : Calendar {
     val dataConvertida: Date = formatoBrasileiro.parse(this)
     val data = Calendar.getInstance()
     data.time = dataConvertida
-    data.time
+    return data
 }

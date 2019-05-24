@@ -11,11 +11,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import br.com.alura.financask.R
+import br.com.alura.financask.delegate.TransacaoDelegate
 import br.com.alura.financask.extension.formataParaBrasileiro
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
 import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
+import br.com.alura.financask.ui.dialog.AdicionaTransacaoDialog
 import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import kotlinx.android.synthetic.main.form_transacao.view.*
 import java.lang.NumberFormatException
@@ -36,9 +38,15 @@ class ListaTransacoesActivity : AppCompatActivity() {
         configuraLista()
 
         lista_transacoes_adiciona_receita.setOnClickListener {
-            configuraDialog()
-        }
+            AdicionaTransacaoDialog(window.decorView as ViewGroup, this)
+                    .configuraDialog(object : TransacaoDelegate {
+                        override fun delegate(transacao: Transacao) {
+                            atualizaTrasacoes(transacao)
+                            lista_transacoes_adiciona_menu.close(true)
+                        }
 
+                    })
+        }
     }
 
 
