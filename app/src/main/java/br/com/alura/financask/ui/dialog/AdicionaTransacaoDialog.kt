@@ -27,7 +27,7 @@ class AdicionaTransacaoDialog (private val viewGroup: ViewGroup,
                                private val context: Context){
 
     private val viewCriada = criaLayout()
-    fun configuraDialog(transacaoDelegate: TransacaoDelegate) {
+    fun configuraDialog(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
 
         configuraCampoData()
 
