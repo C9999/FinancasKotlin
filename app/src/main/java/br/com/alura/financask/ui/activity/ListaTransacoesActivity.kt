@@ -64,6 +64,9 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun configuraLista() {
         lista_transacoes_listview.adapter = ListaTransacoesAdapter(transacoes, this)
+        lista_transacoes_listview.setOnItemLongClickListener { parent, view, posicao, id ->
+            val transacao = transacoes[posicao]
+        }
     }
 
     private fun transacoesDeExemplo(): List<Transacao> {
