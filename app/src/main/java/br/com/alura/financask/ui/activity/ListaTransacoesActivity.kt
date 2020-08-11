@@ -19,11 +19,13 @@ import java.util.*
 class ListaTransacoesActivity : AppCompatActivity() {
 
     private val transacoes: MutableList<Transacao> = mutableListOf()
-    private val viewDaActivity = window.decorView
+    private var viewDaActivity: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
+
+        viewDaActivity = window.decorView
 
         configuraResumo()
         configuraLista()
@@ -62,8 +64,8 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun configuraResumo() {
-        val view: View = viewDaActivity
-        val resumoView = ResumoView(view, this, transacoes) //
+//        val view: View = viewDaActivity
+        val resumoView = ResumoView(viewDaActivity, this, transacoes) //
         resumoView.atualiza()
 
     }
