@@ -26,7 +26,7 @@ class ResumoView(private val view: View?,
 
     private fun adicionaReceita() {
         val totalReceita = resumo.receita()
-        with(view!!.resumo_card_receita){
+        with(view.resumo_card_receita) {
             setTextColor(corReceita)
             text = totalReceita.formataParaBrasileiro()
         }
@@ -34,14 +34,16 @@ class ResumoView(private val view: View?,
 
     private fun adicionaDespesa() {
         val totalDespesa = resumo.despesa()
-        view!!.resumo_card_despesa.setTextColor(corDespesa) //implementar o with igual ao adicionaReceita
-        view!!.resumo_card_despesa.text = totalDespesa.formataParaBrasileiro()
+        with(view.resumo_card_despesa) {
+            setTextColor(corDespesa)
+            text = totalDespesa.formataParaBrasileiro()
+        }
     }
 
     private fun adicionaTotal() {
         val total = resumo.total()
         val cor = corPor(total)
-        with(view!!.resumo_card_total){
+        with(view.resumo_card_total) {
             setTextColor(cor)
             text = total.formataParaBrasileiro()
         }
