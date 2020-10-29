@@ -26,6 +26,13 @@ import java.util.*
 class AdicionaTransacaoDialog (private val viewGroup: ViewGroup,
                                private val context: Context){
 
+    import android.content.Context
+    import android.view.ViewGroup
+
+    class AdicionaTransacaoDialog(
+            viewGroup: ViewGroup,
+            context: Context) : FormularioTransacaoDialog(context, viewGroup)
+
     private val viewCriada = criaLayout()
     private val campoValor = viewCriada.form_transacao_valor
     private val campoCategoria = viewCriada.form_transacao_categoria
