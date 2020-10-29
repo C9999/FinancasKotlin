@@ -22,10 +22,16 @@ open class FormularioTransacaoDialog(
         private val context: Context,
         private val viewGroup: ViewGroup) {
 
-    private val viewCriada = criaLayout()
-    private val campoValor = viewCriada.form_transacao_valor
-    private val campoCategoria = viewCriada.form_transacao_categoria
-    private val campoData = viewCriada.form_transacao_data
+    protected val campoValor = viewCriada.form_transacao_valor
+    protected val campoCategoria = viewCriada.form_transacao_categoria
+    protected val campoData = viewCriada.form_transacao_data
+
+    protected fun categoriasPor(tipo: Tipo): Int {
+        if (tipo == Tipo.RECEITA) {
+            return R.array.categorias_de_receita
+        }
+        return R.array.categorias_de_despesa
+    }
 
     fun chama(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
         configuraCampoData()

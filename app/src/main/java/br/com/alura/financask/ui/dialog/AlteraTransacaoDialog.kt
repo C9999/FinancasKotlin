@@ -1,50 +1,28 @@
 package br.com.alura.financask.ui.dialog
 
-import android.app.Activity
-import android.app.DatePickerDialog
 import android.content.Context
-import android.support.v7.app.AlertDialog
-import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Toast
-import br.com.alura.financask.R
 import br.com.alura.financask.delegate.TransacaoDelegate
-import br.com.alura.financask.extension.converteParaCalendar
 import br.com.alura.financask.extension.formataParaBrasileiro
-import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
-import br.com.alura.financask.ui.activity.ListaTransacoesActivity
-import kotlinx.android.synthetic.main.activity_lista_transacoes.*
-import kotlinx.android.synthetic.main.form_transacao.view.*
-import java.lang.NumberFormatException
-import java.math.BigDecimal
-import java.text.SimpleDateFormat
-import java.util.*
 
-class AlteraTransacaoDialog (private val viewGroup: ViewGroup,
-                             private val context: Context){
-
-    private val viewCriada = criaLayout()
-    private val campoValor = viewCriada.form_transacao_valor
-    private val campoCategoria = viewCriada.form_transacao_categoria
-    private val campoData = viewCriada.form_transacao_data
+class AlteraTransacaoDialog(
+        viewGroup: ViewGroup,
+        private val context: Context) : FormularioTransacaoDialog(context, viewGroup) {
 
     fun chama(transacao: Transacao, transacaoDelegate: TransacaoDelegate) {
         val tipo = transacao.tipo
 
-        configuraCampoData()
-        configuraCampoCategoria(tipo)
-        configuraFormulario(tipo, transacaoDelegate)
+        super.chama(tipo, transacaoDelegate)
 
         campoValor.setText(transacao.valor.toString())
         campoData.setText(transacao.data.formataParaBrasileiro())
-        val categoriasRetornadas = context.resources.getStringArray(categoriaPor(tipo))
+        val categoriasRetornadas = context.resources.getStringArray(categoriasPor(tipo))
         val posicaoCategoria = categoriasRetornadas.indexOf(transacao.categoria)
         campoCategoria.setSelection(posicaoCategoria, true)
-
     }
+
+}
 
     private fun configuraFormulario(tipo: Tipo, transacaoDelegate: TransacaoDelegate) {
 
