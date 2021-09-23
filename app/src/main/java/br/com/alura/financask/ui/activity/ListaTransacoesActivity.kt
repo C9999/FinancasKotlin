@@ -19,13 +19,15 @@ import java.util.*
 class ListaTransacoesActivity : AppCompatActivity() {
 
     private val transacoes: MutableList<Transacao> = mutableListOf()
-    private lateinit var viewDaActivity: View
+    private val viewDaActivity by lazy {
+        window.decorView
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_lista_transacoes)
 
-        viewDaActivity = window.decorView
+//        viewDaActivity = window.decorView
 
         configuraResumo()
         configuraLista()
