@@ -2,7 +2,6 @@ package br.com.alura.financask.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import br.com.alura.financask.R
@@ -20,9 +19,12 @@ import java.util.*
 class ListaTransacoesActivity : AppCompatActivity() {
 
     private val transacoes: MutableList<Transacao> = mutableListOf()
-    private val viewDaActivity: View by lazy {
-        Log.i("teste lazy 0", "inicialização do Lazy")
+    private val viewDaActivity by lazy {
         window.decorView
+    }
+
+    private val viewGroupDaActivity by lazy {
+        viewDaActivity as ViewGroup
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,10 +32,6 @@ class ListaTransacoesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_transacoes)
 
 //        viewDaActivity = window.decorView
-
-        Log.i("teste lazy 1", viewDaActivity.toString())
-        Log.i("teste lazy 2", viewDaActivity.toString())
-        Log.i("teste lazy 3", viewDaActivity.toString())
 
         configuraResumo()
         configuraLista()

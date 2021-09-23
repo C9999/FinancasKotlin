@@ -10,7 +10,7 @@ import br.com.alura.financask.ui.activity.ListaTransacoesActivity
 import kotlinx.android.synthetic.main.resumo_card.view.*
 import java.math.BigDecimal
 
-class ResumoView(private val view: View?,
+class ResumoView(private val view: View,
                  private val context: ListaTransacoesActivity,
                  transacoes: List<Transacao>) {
 
