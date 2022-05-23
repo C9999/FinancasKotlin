@@ -32,7 +32,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_transacoes)
 
 //        viewDaActivity = window.decorView
-        // iniciando capitulo 4
+        // termino do capitulo 4
 
         configuraResumo()
         configuraLista()
