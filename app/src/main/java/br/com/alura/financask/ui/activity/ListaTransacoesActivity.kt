@@ -2,10 +2,12 @@ package br.com.alura.financask.ui.activity
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import br.com.alura.financask.R
 import br.com.alura.financask.delegate.TransacaoDelegate
+import br.com.alura.financask.delegate.TransacaoDelegateJava
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.Transacao
 import br.com.alura.financask.ui.ResumoView
@@ -32,11 +34,15 @@ class ListaTransacoesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_transacoes)
 
 //        viewDaActivity = window.decorView
-        // termino do capitulo 4
+        // inicio capítulo 5
 
         configuraResumo()
         configuraLista()
         configuraFloatActionButton()
+        testaFuncaDoKotlin { transacao ->
+            Log.i("hof", "entrei na expressão Lambda")
+            Log.i("hof", "transacao recebia da hof ${transacao.valor} / ${transacao.tipo}")
+        }
     }
 
     private fun configuraFloatActionButton() {
@@ -50,13 +56,18 @@ class ListaTransacoesActivity : AppCompatActivity() {
 
     private fun chamaDialogDeAdicao(tipo: Tipo) {
         AdicionaTransacaoDialog(viewGroupDaActivity, this)
-                .chama(tipo, object : TransacaoDelegate {
+                .chama(tipo,  object : TransacaoDelegate {
                     override fun delegate(transacao: Transacao) {
                         adiciona(transacao)
                         lista_transacoes_adiciona_menu.close(true)
                     }
-
                 })
+    }
+
+    fun testaFuncaDoKotlin(transacaoDelegate: (trasacao: Transacao) -> Unit){
+        Log.i("hof", "TestaFuncaoDoKotlin esta sendo executada")
+        val transacao = Transacao(valor = BigDecimal(100), tipo = Tipo.RECEITA, categoria = "aaa")
+        transacaoDelegate(transacao)
     }
 
     private fun adiciona(transacao: Transacao) {
