@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.Toast
 import br.com.alura.financask.R
+import br.com.alura.financask.dao.TransacaoDAO
 //import br.com.alura.financask.delegate.TransacaoDelegate
 //import br.com.alura.financask.delegate.TransacaoDelegateJava
 import br.com.alura.financask.model.Tipo
@@ -23,7 +24,8 @@ import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() {
 
-    private val transacoes: MutableList<Transacao> = mutableListOf()
+    private val dao = TransacaoDAO()
+    private val transacoes = dao.transacoes
     private val viewDaActivity by lazy {
         window.decorView
     }
@@ -37,7 +39,6 @@ class ListaTransacoesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_lista_transacoes)
 
 //        viewDaActivity = window.decorView
-        // fim do capítulo 6
 
         configuraResumo()
         configuraLista()
@@ -62,7 +63,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun adiciona(transacao: Transacao) {
-        transacoes.add(transacao)
+        dao.adiciona(transacao)
         atualizaTrasacoes()
     }
 
@@ -105,7 +106,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun remove(posicao: Int) {
-        transacoes.removeAt(posicao)
+        dao.remove(posicao)
         atualizaTrasacoes()
     }
 
@@ -117,7 +118,7 @@ class ListaTransacoesActivity : AppCompatActivity() {
     }
 
     private fun altera(transacao: Transacao, posicao: Int) {
-        transacoes[posicao] = transacao
+        dao.altera(transacao, posicao)
         atualizaTrasacoes()
     }
 
